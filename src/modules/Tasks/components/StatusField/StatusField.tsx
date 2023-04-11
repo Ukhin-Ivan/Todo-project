@@ -12,19 +12,19 @@ function StatusFieldProto() {
       <p>
         Total:
         <Loader isLoading={isLoadingTasks} variant={'dot'}>
-          <span className="status-field-value">{tasksStats.total}</span>
+          <span className="status-field-value">{tasksStats ? tasksStats.total : '0'}</span>
         </Loader>
       </p>
       <p>
         Important:
         <Loader isLoading={isLoadingTasks} variant={'dot'}>
-          <span className="status-field-value">{tasksStats.important}</span>
+          <span className="status-field-value">{tasksStats ? tasksStats.important : '0'}</span>
         </Loader>
       </p>
       <p>
         Done:
         <Loader isLoading={isLoadingTasks} variant={'dot'}>
-          <span className="status-field-value">{tasksStats.done}</span>
+          <span className="status-field-value">{tasksStats ? tasksStats.done : '0'}</span>
         </Loader>
       </p>
     </div>

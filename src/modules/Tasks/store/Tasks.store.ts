@@ -1,9 +1,9 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { SearchFieldEntity, TaskEntity, TaskStatsEntity } from 'domains/index';
-import { TasksMocks, StatusFieldMocks } from '__mocks__/index';
-import { delay } from 'helpers/index';
+import { getInternalInfo, mapToExternalParams, mapToInternalData } from 'helpers/index';
+import { TaskAgentInstance } from 'http/agent';
 
-type PrivateField = '_isLoadingTasks' | '_tasks' | '_tasksStats';
+type PrivateField = '_isLoadingTasks' | '_tasks' | '_tasksStats' | '_searchField';
 
 class TasksStore {
   constructor() {
@@ -11,6 +11,7 @@ class TasksStore {
       _isLoadingTasks: observable,
       _tasks: observable,
       _tasksStats: observable,
+      _searchField: observable,
 
       tasks: computed,
       isLoadingTasks: computed,
@@ -33,49 +34,111 @@ class TasksStore {
     this._isLoadingTasks = value;
   }
 
-  private _tasks: TaskEntity[] = [];
+  private _tasks: TaskEntity[] | null = [];
 
-  get tasks(): TaskEntity[] {
+  get tasks(): TaskEntity[] | null {
     return this._tasks;
   }
 
-  private _tasksStats: TaskStatsEntity = {
+  private _tasksStats: TaskStatsEntity | null = {
     total: 0,
     important: 0,
     done: 0,
   };
 
-  get tasksStats(): TaskStatsEntity {
+  get tasksStats(): TaskStatsEntity | null {
     return this._tasksStats;
   }
 
+  private _searchField?: SearchFieldEntity = {
+    inputValue: '',
+    filterValue: 'All',
+  };
+
+  getTasks = async (searchParams?: SearchFieldEntity) => {
+    const externalSearchParams = mapToExternalParams(searchParams);
+    const res = await TaskAgentInstance.getAllTasks(externalSearchParams);
+
+    return {
+      tasks: mapToInternalData(res),
+      tasksStats: getInternalInfo(res),
+    };
+  };
+
   loadTasks = async (searchParams?: SearchFieldEntity) => {
     this.isLoadingTasks = true;
+    try {
+      if (searchParams) this._searchField = searchParams;
 
-    console.log(searchParams);
-    this._tasks = TasksMocks;
-    this._tasksStats = StatusFieldMocks;
-    await delay(1000);
+      const { tasks, tasksStats } = await this.getTasks(this._searchField);
 
-    this.isLoadingTasks = false;
+      this._tasks = tasks;
+      this._tasksStats = tasksStats;
+    } catch {
+      this._tasks = null;
+      this._tasksStats = null;
+    } finally {
+      this.isLoadingTasks = false;
+    }
   };
 
-  changeTaskImportance = (taskId: TaskEntity['id'], currentStatus: boolean) => {
+  changeTaskImportance = async (taskId: TaskEntity['id'], currentStatus: boolean) => {
     this.isLoadingTasks = true;
-    console.log('important', taskId, !currentStatus);
-    this.loadTasks();
+
+    try {
+      await TaskAgentInstance.updateTask(taskId, {
+        isImportant: !currentStatus,
+      });
+
+      const { tasks, tasksStats } = await this.getTasks(this._searchField);
+
+      this._tasks = tasks;
+      this._tasksStats = tasksStats;
+    } catch {
+      this._tasks = null;
+      this._tasksStats = null;
+    } finally {
+      this.isLoadingTasks = false;
+    }
   };
 
-  changeTaskCompleteness = (taskId: TaskEntity['id'], currentStatus: boolean) => {
+  changeTaskCompleteness = async (taskId: TaskEntity['id'], currentStatus: boolean) => {
     this.isLoadingTasks = true;
-    console.log('complete', taskId, !currentStatus);
-    this.loadTasks();
+
+    try {
+      await TaskAgentInstance.updateTask(taskId, {
+        isImportant: currentStatus ? undefined : false,
+        isCompleted: !currentStatus,
+      });
+
+      const { tasks, tasksStats } = await this.getTasks(this._searchField);
+
+      this._tasks = tasks;
+      this._tasksStats = tasksStats;
+    } catch {
+      this._tasks = null;
+      this._tasksStats = null;
+    } finally {
+      this.isLoadingTasks = false;
+    }
   };
 
-  deleteTask = (taskId: TaskEntity['id']) => {
+  deleteTask = async (taskId: TaskEntity['id']) => {
     this.isLoadingTasks = true;
-    console.log('delete', taskId);
-    this.loadTasks();
+
+    try {
+      await TaskAgentInstance.deleteTask(taskId);
+
+      const { tasks, tasksStats } = await this.getTasks(this._searchField);
+
+      this._tasks = tasks;
+      this._tasksStats = tasksStats;
+    } catch {
+      this._tasks = null;
+      this._tasksStats = null;
+    } finally {
+      this.isLoadingTasks = false;
+    }
   };
 }
 

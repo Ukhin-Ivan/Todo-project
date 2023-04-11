@@ -26,10 +26,10 @@ function AddTaskFieldProto() {
 
   const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    handleSubmit((formData) => {
-      addTask(formData);
+    handleSubmit(async (formData) => {
+      const resp = await addTask(formData);
+      if (resp) linkToRoot(LINKS.ROOT);
     })();
-    linkToRoot(LINKS.ROOT);
   };
 
   return (

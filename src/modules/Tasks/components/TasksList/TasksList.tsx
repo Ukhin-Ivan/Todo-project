@@ -10,19 +10,23 @@ function TasksListProto() {
   return (
     <div className="tasks-list">
       <Loader isLoading={isLoadingTasks}>
-        <ul className="list">
-          {tasks.map((task) => (
-            <li key={task.id} className="li">
-              <Task
-                key={task.id}
-                task={task}
-                changeTaskImportance={changeTaskImportance}
-                deleteTask={deleteTask}
-                changeTaskCompleteness={changeTaskCompleteness}
-              />
-            </li>
-          ))}
-        </ul>
+        {tasks?.length ? (
+          <ul className="list">
+            {tasks.map((task) => (
+              <li key={task.id} className="li">
+                <Task
+                  key={task.id}
+                  task={task}
+                  changeTaskImportance={changeTaskImportance}
+                  deleteTask={deleteTask}
+                  changeTaskCompleteness={changeTaskCompleteness}
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Tasks not found.</p>
+        )}
       </Loader>
     </div>
   );

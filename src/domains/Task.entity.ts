@@ -20,3 +20,10 @@ export interface SearchFieldEntity {
   inputValue: string;
   filterValue: FiltersType;
 }
+
+export interface TaskEditFormEntity {
+  name: string;
+  info: string;
+  isImportant: boolean;
+  isCompleted: boolean;
+}

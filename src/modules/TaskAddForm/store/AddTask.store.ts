@@ -1,6 +1,6 @@
 import { computed, action, makeObservable, observable } from 'mobx';
 import { TaskEntity } from 'domains/index';
-import { delay } from 'helpers/index';
+import { TaskAgentInstance } from 'http/index';
 
 type PrivateField = '_isLoadingTask';
 
@@ -25,13 +25,18 @@ class AddTaskStore {
     this._isLoadingTask = value;
   }
 
-  addTask = async (addParams?: Omit<TaskEntity, 'id' | 'isDone'>) => {
+  addTask = async (addData: Omit<TaskEntity, 'id' | 'isDone'>): Promise<boolean> => {
     this.isLoadingTask = true;
 
-    console.log(addParams);
-    if (addParams) await delay(1000);
+    try {
+      await TaskAgentInstance.createTask(addData);
 
-    this.isLoadingTask = false;
+      return true;
+    } catch {
+      return false;
+    } finally {
+      this.isLoadingTask = false;
+    }
   };
 }
 
