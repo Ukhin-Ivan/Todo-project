@@ -1,0 +1,30 @@
+.status-filter-buttons {
+  border: 1px solid #afacbd;
+  border-radius: 4px;
+}
+
+.btn {
+  border-right: 1px solid #afacbd;
+  border-radius: 0;
+  padding: 5px 12px;
+  color: #6e6b79
+}
+
+.btn:last-child {
+  border-right: none;
+}
+
+.btn:hover {
+  color: #fff;
+  background-color: #5b5961;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 5px #6bcf9646;
+  transition: box-shadow 0.2s ease-in;
+}
+
+.active {
+  color: #000;
+  background-color: #4cb37a83;
+}

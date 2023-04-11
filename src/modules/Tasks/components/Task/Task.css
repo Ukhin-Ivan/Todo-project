@@ -1,0 +1,125 @@
+.task-card {
+  position: relative;
+}
+
+.buttons-cascade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.done-task {
+  text-decoration: line-through;
+}
+
+.important-task {
+  color: #027214;
+  font-weight: 700;
+}
+
+.important-button {
+  border: 1px solid #1f8630;
+  border-radius: 4px;
+  padding: 3px 12px;
+  color:#1f8630;
+  margin-right: 5px;
+  background-color: #fff;
+  outline: none;
+}
+
+.important {
+  border: 1px solid #399448;
+  background-color: #399448;
+  color: #fff;
+}
+
+.important-button:hover {
+  background-color: #0d7c20;
+  color: #fff;
+  transition: background-color 0.1s ease-in
+}
+
+.important-button:focus {
+  box-shadow: 0 0 0 5px #31aa4548;
+  transition: box-shadow 0.1s ease-in;
+}
+
+.important-button:disabled {
+  border: 1px solid #26703385;
+  color:#26703385;
+  background-color: #fff;
+  pointer-events: none;
+}
+
+.fulfilled-button {
+  border: 1px solid #d12828;
+  border-radius: 4px;
+  padding: 3px 7px;
+  color:#d12828;
+  margin-right: 5px;
+  background-color: #fff;
+  outline: none;
+}
+
+.fulfilled {
+  border: 1px solid #e43535;
+  background-color: #e43535;
+  color: #fff;
+}
+
+.fulfilled-button:hover {
+  background-color: #be3333;
+  border-radius: #be3333;
+  color: #fff;
+  transition: background-color 0.1s ease-in
+}
+
+.fulfilled-button:focus {
+  box-shadow: 0 0 0 5px #d1282857;
+  transition: box-shadow 0.1s ease-in;
+}
+
+.delete-button {
+  border: 1px solid #d12828;
+  border-radius: 4px;
+  padding: 3px 9px;
+  color:#d12828;
+  margin-right: 5px;
+  background-color: #fff;
+  outline: none;
+}
+
+.delete-button:hover {
+  background-color: #be3333;
+  border-radius: #be3333;
+  color: #fff;
+  transition: background-color 0.1s ease-in
+}
+
+.delete-button:focus {
+  box-shadow: 0 0 0 5px #d1282857;
+  transition: box-shadow 0.1s ease-in;
+}
+
+.edit-button {
+  border: 1px solid #697085;
+  border-radius: 4px;
+  padding: 3px 8px;
+  color:#697085;
+  background-color: #fff;
+  outline: none;
+}
+
+.edit-button:hover {
+  background-color: #697085;
+  border-radius: #697085;
+  color: #fff;
+  transition: background-color 0.1s ease-in
+}
+
+.edit-button:focus {
+  box-shadow: 0 0 0 5px #69708544;
+  transition: box-shadow 0.1s ease-in;
+}

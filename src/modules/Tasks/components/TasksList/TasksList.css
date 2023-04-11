@@ -1,0 +1,19 @@
+.tasks-list {
+  border: 1px solid #afacbd;
+  border-radius: 4px;
+}
+
+.list {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+.li {
+  list-style-type: none;
+  border-bottom: 1px solid #afacbd;
+  padding: 10px 20px;
+}
+
+.li:last-child {
+  border-bottom: none;
+}

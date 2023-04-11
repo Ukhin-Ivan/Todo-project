@@ -1,0 +1,12 @@
+.status-field {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px;
+}
+
+.status-field-value {
+  background-color: #178f4daf;
+  color: #fff;
+  padding: 0 6px;
+  border-radius: 4px;
+}

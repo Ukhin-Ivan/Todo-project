@@ -1,0 +1,33 @@
+.input-panel {
+  display: inline-block;
+  position: relative;
+}
+
+.search-input {
+  width: auto;
+  margin-right: 3px;
+  padding: 6px 10px;
+  border: 1px solid #afacbd;
+  border-radius: 4px;
+  box-sizing: content-box;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 5px #6bcf9646;
+  transition: box-shadow 0.2s ease-in;
+}
+
+.close {
+  position: absolute;
+  top: -5px;
+  right: 8px;
+  border: none;
+  background-color: inherit;
+}
+
+.cross {
+  font-size: 28px;
+  font-weight: 700;
+  color: #504e5a;
+}
